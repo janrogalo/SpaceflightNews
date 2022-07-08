@@ -7,16 +7,26 @@ async function getNews(url) {
     await fetch(url)
         .then(d => d.json())
         .then(response => {
-            console.log(response);
+           response.forEach((article)=>console.log(article))
         });
 };
 
 function controller(){
     const API_URL = `https://api.spaceflightnewsapi.net/v3/articles?_limit=${getNumberOfArticles()}`;
     getNews(API_URL);
+  // console.log(newsArray);
+
+
+
+
+
 }
 
+
 controller();
+
+
+
 
 
 

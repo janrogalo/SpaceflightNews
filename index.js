@@ -7,7 +7,7 @@ async function getNews(url) {
     await fetch(url)
         .then(d => d.json())
         .then(response => {
-           response.forEach((article)=>console.log(article))
+           response.forEach((article)=>console.log(`${article.title}\n ${article.newsSite}\n ${article.publishedAt}\n ${article.summary}\n ${article.url}`))
         });
 };
 

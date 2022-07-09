@@ -2,7 +2,9 @@ const articlesContainer = document.querySelector('.articlesContainer');
 let saveArticleButtons = document.querySelectorAll(".addToLibrary");
 let savedArticles = JSON.parse(localStorage.getItem('savedArticles')) || [];
 
-console.log(savedArticles);
+
+
+
 
 
 function getNumberOfArticles(){
@@ -17,6 +19,7 @@ async function getNews(url) {
             response.forEach((article) => {
                 let articleContent = articleCardContent(article);
                 appendArticleCard(articleContent)
+
 
             });
             submit();
@@ -61,16 +64,16 @@ function controller() {
 function submit(){
     saveArticleButtons = document.querySelectorAll(".addToLibrary");
     [... saveArticleButtons].forEach(function(button){
+
         button.addEventListener('click', function(e) {
-            button.classList.remove('addToLibrary');
-            button.classList.add('removeFromLibrary');
-            button.innerText = 'Remove from Library'
+
+            buttonManipulationToRemove(button);
             articleCard = e.target.parentElement;
-            
             if(savedArticles.length != 0){
+
                 for (let i =0; i < savedArticles.length; i++){
+
                     if (savedArticles[i].value == articleCard.innerHTML){
-                        console.log("Already added")
                         return;
                     }
                 }
@@ -78,8 +81,8 @@ function submit(){
             savedArticles.push({
                 value: articleCard.innerHTML,
             })
+
             localStorage.setItem('savedArticles', JSON.stringify(savedArticles))
-            console.log('item set')
         });
     });
 }
@@ -99,11 +102,20 @@ function submit(){
 //
 //     }
 
+function buttonManipulationToRemove(button){
+    button.classList.remove('addToLibrary');
+    button.classList.add('removeFromLibrary');
+    button.innerText = 'Remove from Library'
+    button.onclick = function deleteArticle(index){
+        savedArticles.splice(index, 1);
+        localStorage.setItem('savedArticles', JSON.stringify(savedArticles))
+        button.classList.add('addToLibrary');
+        button.classList.remove('removeFromLibrary');
+        button.innerText = 'Add to library';
 
-
-
-
-
+    }
+    return button;
+}
 
 
 controller();

@@ -1,0 +1,20 @@
+.articlesContainer{
+    padding: 20px;
+    margin-top: 20px;
+    background-color: skyblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.article{
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 20px;
+    width: 700px;
+    border-radius: 8px;
+}
+
+.controls{
+
+}

@@ -29,16 +29,14 @@ function shortenSummary(string){
 }
 
 function formatDate(string){
-   string = string.substring(0, 10)
-   return string
+    return new Date(string).toUTCString()
 }
 
 function articleCardContent(article) {
     let content = `<h3>${article.title}</h3>`;
-    content += `<p>published at: ${formatDate(article.publishedAt)} by: ${article.newsSite} </p>`;
-    content += `<hr><p>${shortenSummary(article.summary)}</p>`;
+    content += `<p>published at: <span class="publishedAt">${formatDate(article.publishedAt)}</span> by: <span class="newsSite">${article.newsSite}</span></p>`;
+    content += `<hr><p class="summary">${shortenSummary(article.summary)}</p>`;
     content += `<a href="${article.url}"><button>Read more</button></a>`;
-    // content += `<button class="addToLibrary">Add to library</button>`;
     return content;
 }
 
@@ -57,7 +55,7 @@ function appendButton(article){
 
     if(savedArticles.length != 0){
         for (let i =0; i < savedArticles.length; i++){
-            if (savedArticles[i].value.includes(article.url)) {
+            if (savedArticles[i].url == article.url) {
                 buttonManipulation(newButton)
             }
         }
@@ -78,9 +76,11 @@ function submit(){
     [... saveArticleButtons].forEach(function(button){
 
         button.addEventListener('click', function(e) {
-
             buttonManipulation(button);
             articleCard = e.target.parentElement;
+
+            console.log()
+
             if(savedArticles.length != 0){
 
                 for (let i =0; i < savedArticles.length; i++){
@@ -91,8 +91,13 @@ function submit(){
                 }
             }
             savedArticles.push({
-                value: articleCard.innerHTML,
-            })
+                title: articleCard.querySelector('h3').innerText,
+                publishedAt: Date.parse(articleCard.querySelector('.publishedAt').innerText),
+                newsSite: articleCard.querySelector('.newsSite').innerText,
+                summary: articleCard.querySelector('.summary').innerText,
+                url: articleCard.querySelector('a').href,
+            });
+
             localStorage.setItem('savedArticles', JSON.stringify(savedArticles))
         });
     });

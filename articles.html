@@ -8,12 +8,26 @@
 <body>
 <header>
     <nav>
-        <ul>
-            <li>Articles</li>
-            <li><a href="articles.html">Library</a></li>
+        <div class="logo">
+            <h4>Space Flight News</h4>
+        </div>
+        <ul class="nav-links">
+
+
+            <li><a href="index.html"><span>01.</span>All articles</a></li>
+            <li><a href="articles.html"><span>02.</span>Archive</a></li>
+
         </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
     </nav>
+
+
 </header>
+<main class="wrapper">
 <div class="controls">
     <label for="sortBy">Sorting methods:</label>
     <select id="sortBy" name="sortBy">
@@ -26,5 +40,7 @@
 </div>
 <div class="articlesContainer"></div>
 <script src="articles.js"></script>
+<script src="/scripts/navbar.js"></script>
+</main>
 </body>
 </html>

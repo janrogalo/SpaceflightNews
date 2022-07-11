@@ -11,10 +11,11 @@ async function displayCounter(number) {
     counter.innerHTML="";
     const numberOfArticles = await getData('https://api.spaceflightnewsapi.net/v3/articles/count');
     let counterTitle = document.createElement('h3');
-    counterTitle.textContent = `Total articles fetched`;
+    counterTitle.textContent = `Total articles fetched:`;
     counter.appendChild(counterTitle)
     let articlesFetched = document.createElement('h2');
     articlesFetched.innerHTML = ` ${number} / ${numberOfArticles}`;
+    articlesFetched.classList.add('numbersDisplay')
     counter.appendChild(articlesFetched);
     controls.insertBefore(counter, controls.firstChild);
 }

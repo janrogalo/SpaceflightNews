@@ -1,8 +1,26 @@
 const articlesContainer = document.querySelector('.articlesContainer');
 let saveArticleButtons = document.querySelectorAll(".addToLibrary");
 let savedArticles = JSON.parse(localStorage.getItem('savedArticles')) || [];
+const controls = document.querySelector('.controls');
+const counter = document.querySelector('.counter');
+const loading = document.querySelector('.loader');
+const wrapper = document.querySelector('.wrapper');
+
+
+async function displayCounter(number) {
+    counter.innerHTML="";
+    const numberOfArticles = await getData('https://api.spaceflightnewsapi.net/v3/articles/count');
+    let counterTitle = document.createElement('h3');
+    counterTitle.textContent = `Total articles fetched`;
+    counter.appendChild(counterTitle)
+    let articlesFetched = document.createElement('h2');
+    articlesFetched.innerHTML = ` ${number} / ${numberOfArticles}`;
+    counter.appendChild(articlesFetched);
+    controls.insertBefore(counter, controls.firstChild);
+}
 
 controller();
+
 
 
 //main invocation of get news with the articlesContainer cleanup and API url
@@ -10,6 +28,7 @@ function controller() {
     const API_URL = `https://api.spaceflightnewsapi.net/v3/articles?_limit=${getNumberOfArticles()}`;
     articlesContainer.innerHTML='';
     displayNews(API_URL);
+    displayCounter(getNumberOfArticles());
 }
 
 //Read user input to get selected number of articles from the API
@@ -138,34 +157,46 @@ function buttonManipulation(button){
 
 
 
+//Loading functions & variables
 
-
-
-
-///////////////////////////////////
-const loading = document.querySelector('.loader');
-
-const wrapper = document.querySelector('.wrapper');
 let i = 2
 
-
+//function to display loading icon
 function showLoading(){
     loading.classList.add("show");
     setTimeout(()=>{
         loading.classList.remove('show');
         setTimeout(()=> {
-            console.log('SCROLL');
-            url = `https://api.spaceflightnewsapi.net/v3/articles?_limit=${getNumberOfArticles()}&_start=${getNumberOfArticles()*i}`
+            url = `https://api.spaceflightnewsapi.net/v3/articles?_limit=${getNumberOfArticles()*i}`
+            articlesContainer.innerHTML='';
             displayNews(url);
+            displayCounter((getNumberOfArticles()*i));
             i++;
-            }, 500)
+            }, 200)
     }, 2000);
 }
 
 
-window.addEventListener('scroll',()=>{
-    const {scrollHeight,scrollTop,clientHeight} = document.documentElement;
-    if(scrollTop + clientHeight > scrollHeight-1){
-        console.log('BOOOOOM!')
+
+function throttled(delay, fn) {
+    let lastCall = 0;
+    return function (...args) {
+        const now = (new Date).getTime();
+        if (now - lastCall < delay) {
+            return;
+        }
+        lastCall = now;
+        return fn(...args);
     }
-});
+}
+
+const scroll = (event) => {
+    event.preventDefault();
+    const {scrollHeight, scrollTop, clientHeight} = document.documentElement;
+    if (((scrollTop + clientHeight) > scrollHeight-3) && scrollHeight > window.outerHeight){
+        showLoading()
+    }
+};
+
+const tScroll = throttled(500, scroll);
+window.addEventListener("scroll", tScroll);

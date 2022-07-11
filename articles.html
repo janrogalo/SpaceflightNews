@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +15,14 @@
     </nav>
 </header>
 <div class="controls">
-<button class="sortAlphabetically">Sort Alphabetically</button>
-<button class="sortbyDate">Sort by publishing date</button>
+    <label for="sortBy">Sorting methods:</label>
+    <select id="sortBy" name="sortBy">
+        <option selected="">Please Select</option>
+        <option data-id="1">Title A-Z</option>
+        <option data-id="2">Title Z-A</option>
+        <option data-id="3">Date published newest</option>
+        <option data-id="4">Date published oldest</option>
+    </select>
 </div>
 <div class="articlesContainer"></div>
 <script src="articles.js"></script>

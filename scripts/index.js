@@ -4,7 +4,6 @@ let savedArticles = JSON.parse(localStorage.getItem('savedArticles')) || [];
 const controls = document.querySelector('.controls');
 const counter = document.querySelector('.counter');
 const loading = document.querySelector('.loader');
-const wrapper = document.querySelector('.wrapper');
 
 
 async function displayCounter(number) {
@@ -150,12 +149,9 @@ function buttonManipulation(button){
         button.classList.remove('removeFromLibrary');
         button.innerText = 'Add to library';
         button.onclick = saveToLocalStorage();
-
     }
     return button;
 }
-
-
 
 
 //Loading functions & variables
@@ -177,32 +173,11 @@ function showLoading(){
     }, 2500);
 }
 
-
-
-function throttled(delay, fn) {
-    let lastCall = 0;
-    return function (...args) {
-        const now = (new Date).getTime();
-        if (now - lastCall < delay) {
-            return;
-        }
-        lastCall = now;
-        return fn(...args);
-    }
-}
-
-const scroll = (event) => {
-    event.preventDefault();
-    const {scrollHeight, scrollTop, clientHeight} = divDisplay;
-    console.log(((scrollTop + clientHeight)+' > '+(scrollHeight-100))+' && '+scrollHeight+' > '+window.innerHeight);
-    if (((scrollTop + clientHeight) > scrollHeight-100) && scrollHeight > window.innerHeight){
-        showLoading()
-    }
-};
-
-
 divDisplay = document.querySelector('.display');
 
-
-const tScroll = throttled(360, scroll);
-divDisplay.addEventListener("scroll", tScroll);
+divDisplay.addEventListener('scroll', function(event) {
+    const {scrollHeight, scrollTop, clientHeight} = divDisplay;
+    if ((scrollHeight - scrollTop < clientHeight +1)  && (scrollHeight > window.innerHeight)) {
+        showLoading();
+    }
+});

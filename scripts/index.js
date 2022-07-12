@@ -154,7 +154,7 @@ function buttonManipulation(button){
 }
 
 
-//Loading functions & variables
+//Loading functions & variables with intersectionObserver
 
 let i = 2
 
@@ -173,11 +173,24 @@ function showLoading(){
     }, 2500);
 }
 
-divDisplay = document.querySelector('.display');
 
-divDisplay.addEventListener('scroll', function(event) {
-    const {scrollHeight, scrollTop, clientHeight} = divDisplay;
-    if ((scrollHeight - scrollTop < clientHeight +1)  && (scrollHeight > window.innerHeight)) {
-        showLoading();
+let options = {
+    root: null,
+    rootMargins: "0px",
+    threshold: 0.5
+};
+const observer = new IntersectionObserver(handleIntersect, options);
+console.log(observer);
+observer.observe(document.querySelector("footer"));
+
+
+function handleIntersect(entries) {
+    if (entries[0].isIntersecting) {
+        console.warn("something is intersecting with the viewport");
+        getDatas();
     }
-});
+}
+function getDatas() {
+    let main = document.querySelector("main");
+    showLoading();
+}

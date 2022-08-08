@@ -16,7 +16,7 @@ main{
     padding: 20px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: right;
 }
 
  /*---------------->Articles Display<----------------*/
@@ -91,6 +91,8 @@ button:hover{
 /*---------------->Controls side<----------------*/
 
 .controls{
+    position:fixed;
+    left: 20px;
     display: flex;
     flex-direction: column;
 margin-top: 30px;
@@ -216,7 +218,6 @@ nav{
     background-color: #092036;
     font-family: 'Lato', sans-serif;
     letter-spacing: 1px;
-    font-weight: 400;
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -268,13 +269,17 @@ nav{
         overflow-x: hidden;
     }
 
-.wrapper{
-    flex-direction: column;
-}
+    .wrapper{
+       flex-direction: column;
+    }
 
-.display{
-    width: 100%;
-}
+    .controls{
+        position:relative
+    }
+
+    .display{
+         width: 100%;
+    }
 
     .nav-links {
         position: absolute;

@@ -24,15 +24,19 @@ sortSelector.addEventListener('change',(e)=>{
 
 function displayArticles(){
     let contents = ""
-
-    savedArticles.forEach(function(article) {
-        contents += `<div class="article"><h3>${article.title}</h3>`;
-        contents += `<p>published at: <span class="publishedAt">${new Date(article.publishedAt).toUTCString()}</span> by: <span class="newsSite">${article.newsSite}</span></p>`;
-        contents += `<p class="summary">${article.summary}</p>`;
-        contents += `<a href="${article.url}"><button>Read more</button></a>`;
-        contents += `<button class="removeFromLibrary" onclick="deleteArticle();">Remove from library</button></div>`
-    })
+    if(savedArticles.length !== 0) {
+        savedArticles.forEach(function (article) {
+            contents += `<div class="article"><h3>${article.title}</h3>`;
+            contents += `<p>published at: <span class="publishedAt">${new Date(article.publishedAt).toUTCString()}</span> by: <span class="newsSite">${article.newsSite}</span></p>`;
+            contents += `<p class="summary">${article.summary}</p>`;
+            contents += `<a href="${article.url}"><button>Read more</button></a>`;
+            contents += `<button class="removeFromLibrary" onclick="deleteArticle();">Remove from library</button></div>`
+        })
+    } else {
+        contents += `<h3>No articles saved in the library</h3>`
+    }
     articlesContainer.innerHTML = contents;
+
 }
 
  function deleteArticle(index){
